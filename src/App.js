@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+        <p className="toptext">
+          Ejoverse
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h4 className = "middletext">
+          The Real World MMO
+        </h4>
+
+        <h4 className = "bottomtext">
+          Currently being built by Tengin Entertainment
+        </h4>
+        
       </header>
+      <body className="App-body">
+        <a className='App-link' href="mailto:tenginentertainment@gmail.com">tenginentertainment@gmail.com</a>
+      </body>
     </div>
   );
 }
