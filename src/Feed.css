@@ -1,0 +1,32 @@
+.Feed {
+  text-align: center;
+  font-family: "Stopbuck";
+  /* background-image: url('./img/blankmap.png'); */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.element {
+  border: solid;
+  width: 800px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  color: black(0, 255, 238);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+li {
+  list-style-type: none;
+}
+
+
+
+

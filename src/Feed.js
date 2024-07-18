@@ -1,34 +1,90 @@
-import './App.css';
+import './Feed.css';
 import React, { useState, useEffect } from 'react';
+import AWS from "aws-sdk";
 
 function Feed() {
+  const [feedElements, setFeedElements]= useState([]);
+  const [file, setFile] = useState(null);
+
   useEffect(() => {
     fetch('https://apu15an183.execute-api.us-west-2.amazonaws.com/TestStage/PullFeedLambda', {
       mode: 'cors'})
       .then(response => response.json())
-      .then(json => console.log(json))
+      .then(json => {
+        // feedElements.push(json);
+        if(!feedElements.includes(json))
+        {
+          setFeedElements(oldState => [...oldState, json]);
+          console.log(feedElements);
+        }
+      })
       .catch(error => console.error(error));
-  }, []);
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p className="toptext">
-          Ejoverse 2
-        </p>
-        <h4 className = "middletext">
-          The Real World MMO
-        </h4>
+    }, []);
 
-        <h4 className = "bottomtext">
-          Currently being built by Tengin Entertainment
-        </h4>
-        
-      </header>
-      <body className="App-body">
-        <a className='App-link' href="mailto:tenginentertainment@gmail.com">tenginentertainment@gmail.com</a>
-      </body>
+    const uploadFile = async () => {
+      const S3_BUCKET = "bucket-name";
+      const REGION = "region";
+    
+      AWS.config.update({
+        accessKeyId: "youraccesskeyhere",
+        secretAccessKey: "yoursecretaccesskeyhere",
+      });
+      const s3 = new AWS.S3({
+        params: { Bucket: S3_BUCKET },
+        region: REGION,
+      });
+    
+      const params = {
+        Bucket: S3_BUCKET,
+        Key: file.name,
+        Body: file,
+      };
+    
+      var upload = s3
+        .putObject(params)
+        .on("httpUploadProgress", (evt) => {
+          console.log(
+            "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+          );
+        })
+        .promise();
+    
+      await upload.then((err, data) => {
+        console.log(err);
+        alert("File uploaded successfully.");
+      });
+    };
+
+    // Function to handle file and store it to file state
+  const handleFileChange = (e) => {
+      // Uploaded file
+      const file = e.target.files[0];
+      // Changing file state
+      setFile(file);
+    };
+
+  return (
+    <div className='Feed'>
+      <input type="file" onChange={handleFileChange} />
+      <div className='Element-container'> 
+        <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data)}</li>)}</ul>
+      </div>
     </div>
   );
 }
 
+function Element(username, text) {
+  console.log("username: " + username);
+  return (
+    <div className='element'>
+      <div className='username'>{username}</div>
+      <div className='text'>{text}</div>
+    </div>
+    
+  )
+}
+
+
+
 export default Feed;
+
