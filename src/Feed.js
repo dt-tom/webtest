@@ -29,7 +29,7 @@ function Feed() {
 
     
       AWS.config.update({
-
+   
       });
       const s3 = new AWS.S3({
         params: { Bucket: S3_BUCKET },
@@ -56,6 +56,8 @@ function Feed() {
         console.log(err);
         alert("File uploaded successfully.");
       });
+
+      // call put feed lambda here
     };
 
     // Function to handle file and store it to file state
@@ -81,7 +83,7 @@ function Element(username, text) {
   console.log("username: " + username);
   return (
     <div className='element'>
-      <img className='image' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+      <img className='postimage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
       <div className='username'>{username}</div>
       <div className='text'>{text}</div>
     </div>
