@@ -29,7 +29,7 @@ function Feed() {
 
     
       AWS.config.update({
-   
+
       });
       const s3 = new AWS.S3({
         params: { Bucket: S3_BUCKET },
@@ -58,6 +58,7 @@ function Feed() {
       });
 
       // call put feed lambda here
+      // record url/key in database
     };
 
     // Function to handle file and store it to file state
