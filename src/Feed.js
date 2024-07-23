@@ -11,7 +11,6 @@ function Feed() {
       mode: 'cors'})
       .then(response => response.json())
       .then(json => {
-        // feedElements.push(json);
         if(!feedElements.includes(json))
         {
           setFeedElements(oldState => [...oldState, json]);
@@ -29,7 +28,10 @@ function Feed() {
 
     
       AWS.config.update({
-
+        region: "us-west-2",
+        credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: "us-west-2:2ed868fe-51e6-4417-b324-0f4586983d0d"
+        })
       });
       const s3 = new AWS.S3({
         params: { Bucket: S3_BUCKET },
@@ -83,10 +85,15 @@ function Feed() {
 function Element(username, text) {
   console.log("username: " + username);
   return (
-    <div className='element'>
-      <img className='postimage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
-      <div className='username'>{username}</div>
-      <div className='text'>{text}</div>
+    <div className='feedelement'>
+      <div className='info'>
+        <img className='userImage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+        <div className='username'>{username}</div>
+      </div>
+      <div className='message'>
+        <div className='text'>{text}</div>
+        <img className='postimage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+      </div>
     </div>
     
   )
