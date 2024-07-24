@@ -5,6 +5,7 @@ import AWS from "aws-sdk";
 function Feed() {
   const [feedElements, setFeedElements]= useState([]);
   const [file, setFile] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     fetch('https://apu15an183.execute-api.us-west-2.amazonaws.com/TestStage/PullFeedLambda', {
@@ -24,8 +25,24 @@ function Feed() {
       const S3_BUCKET = "feed-ejoverse";
       const REGION = "us-west-2";
 
-      console.log(file);
+      getLocation();
 
+      fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          "message": "what is happening",
+          "image": "http://www.google.com",
+          "location": "(12, 24)",
+        })})
+        .then(response => response.json())
+        .then(json => {
+          console.log("here");
+        })
+        .catch(error => console.error(error));
     
       AWS.config.update({
         region: "us-west-2",
@@ -71,10 +88,36 @@ function Feed() {
       setFile(file);
     };
 
+  const handleMessageChange = (e) => {
+    console.log(e);
+    setMessage(e);
+  }
+
+  const getLocation = (e) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log("Geolocation not supported");
+    }
+    
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
+  }
+
+    
+
   return (
     <div className='Feed'>
       <input type="file" onChange={handleFileChange} />
       <button onClick={uploadFile}>Upload</button>
+      <textarea className='messgaeinput' onChange={handleMessageChange}></textarea>
       <div className='Element-container'> 
         <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data)}</li>)}</ul>
       </div>
