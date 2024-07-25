@@ -1,17 +1,23 @@
 import './Feed.css';
 import React, { useState, useEffect } from 'react';
 import AWS from "aws-sdk";
+import { encodeBase32, decodeBase32 } from 'geohashing';
 
 function Feed() {
   const [feedElements, setFeedElements]= useState([]);
   const [file, setFile] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState("Empty");
 
   useEffect(() => {
     fetch('https://apu15an183.execute-api.us-west-2.amazonaws.com/TestStage/PullFeedLambda', {
-      mode: 'cors'})
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({
+        "location": encodeBase32(40.1838684, 44.5138549),
+      })})
       .then(response => response.json())
       .then(json => {
+        console.log(json)
         if(!feedElements.includes(json))
         {
           setFeedElements(oldState => [...oldState, json]);
@@ -27,6 +33,8 @@ function Feed() {
 
       getLocation();
 
+      console.log(encodeBase32(40.1838684, 44.5138549));
+
       fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
         headers: {
           'Accept': 'application/json',
@@ -34,9 +42,9 @@ function Feed() {
         },
         method: 'POST',
         body: JSON.stringify({
-          "message": "what is happening",
-          "image": "http://www.google.com",
-          "location": "(12, 24)",
+          "message": message,
+          "image": file.name,
+          "location": encodeBase32(40.1838684, 44.5138549),
         })})
         .then(response => response.json())
         .then(json => {
@@ -89,8 +97,8 @@ function Feed() {
     };
 
   const handleMessageChange = (e) => {
-    console.log(e);
-    setMessage(e);
+    console.log(e.target.value);
+    setMessage(e.target.value);
   }
 
   const getLocation = (e) => {
