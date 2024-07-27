@@ -1,7 +1,7 @@
 import './Feed.css';
 import React, { useState, useEffect } from 'react';
 import AWS from "aws-sdk";
-import { encodeBase32, decodeBase32 } from 'geohashing';
+import { encodeBase32 } from 'geohashing';
 
 function Feed() {
   const [feedElements, setFeedElements]= useState([]);
@@ -25,6 +25,7 @@ function Feed() {
         }
       })
       .catch(error => console.error(error));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const uploadFile = async () => {
@@ -138,12 +139,12 @@ function Element(username, text) {
   return (
     <div className='feedelement'>
       <div className='info'>
-        <img className='userImage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
-        <div className='username'>{username}</div>
+        <img alt="alt" className='userImage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+        <div alt="alt" className='username'>{username}</div>
       </div>
       <div className='message'>
         <div className='text'>{text}</div>
-        <img className='postimage' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+        <img className='postimage' alt='alt' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
       </div>
     </div>
     
