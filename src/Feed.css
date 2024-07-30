@@ -12,10 +12,9 @@
 
 .feedelement {
   border: solid;
-  border-width: 3px;
+  border-width: 5px;
   border-radius: 8px;
-  width: 500px;
-  height: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -26,12 +25,18 @@
 
 }
 
+ul {
+  padding: 0;
+}
+
+
 .info {
   display: flex;
   flex-direction: column;
   width: 30%;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: auto;
 
 }
 
@@ -41,14 +46,13 @@
   width: 70%;
   align-items: center;
   justify-content: center;
+  margin: 4em;
 }
 
 .userImage {
-  width: 50%;
 }
 
 .username {
-  width: 50%;
   overflow: hidden;
 }
 

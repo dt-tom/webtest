@@ -8,12 +8,16 @@ function Feed() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("Empty");
 
+  console.log("here");
+  console.log(encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5));
+  console.log(encodeBase32(40.1838684, 44.5138549, 5));
+
   useEffect(() => {
     fetch('https://apu15an183.execute-api.us-west-2.amazonaws.com/TestStage/PullFeedLambda', {
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify({
-        "location": encodeBase32(40.1838684, 44.5138549),
+        "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
       })})
       .then(response => response.json())
       .then(json => {
@@ -36,6 +40,8 @@ function Feed() {
 
       console.log(encodeBase32(40.1838684, 44.5138549));
 
+      let determinedKey = 'nyc/' + file.name;
+
       fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
         headers: {
           'Accept': 'application/json',
@@ -44,8 +50,9 @@ function Feed() {
         method: 'POST',
         body: JSON.stringify({
           "message": message,
-          "image": file.name,
-          "location": encodeBase32(40.1838684, 44.5138549),
+          "image": 'https://feed-ejoverse.s3.us-west-2.amazonaws.com/' + determinedKey,
+          "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
+          "username": "rodney"
         })})
         .then(response => response.json())
         .then(json => {
@@ -63,10 +70,12 @@ function Feed() {
         params: { Bucket: S3_BUCKET },
         region: REGION,
       });
+
+      
     
       const params = {
         Bucket: S3_BUCKET,
-        Key: file.name,
+        Key: determinedKey,
         Body: file,
         ContentEncoding: 'base64'
       };
@@ -128,14 +137,14 @@ function Feed() {
       <button onClick={uploadFile}>Upload</button>
       <textarea className='messgaeinput' onChange={handleMessageChange}></textarea>
       <div className='Element-container'> 
-        <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data)}</li>)}</ul>
+        <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data, feedElement.imgUrl)}</li>)}</ul>
       </div>
     </div>
   );
 }
 
-function Element(username, text) {
-  console.log("username: " + username);
+function Element(username, text, imgUrl) {
+  console.log("imgUrl: " + imgUrl);
   return (
     <div className='feedelement'>
       <div className='info'>
@@ -144,7 +153,7 @@ function Element(username, text) {
       </div>
       <div className='message'>
         <div className='text'>{text}</div>
-        <img className='postimage' alt='alt' src='https://feed-ejoverse.s3.us-west-2.amazonaws.com/cowboy.png'></img>
+        <img className='postimage' alt='alt' src={imgUrl}></img>
       </div>
     </div>
     
