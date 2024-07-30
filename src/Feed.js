@@ -21,12 +21,13 @@ function Feed() {
       })})
       .then(response => response.json())
       .then(json => {
-        console.log(json)
-        if(!feedElements.includes(json))
-        {
-          setFeedElements(oldState => [...oldState, json]);
-          console.log(feedElements);
-        }
+        console.log(json['resar'])
+        json['resar'].forEach(element => {
+          if(!feedElements.includes(element))
+          {
+            setFeedElements(oldState => [...oldState, JSON.parse(element)]);
+          }
+        });
       })
       .catch(error => console.error(error));
       // eslint-disable-next-line react-hooks/exhaustive-deps
