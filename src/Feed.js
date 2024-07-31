@@ -41,8 +41,11 @@ function Feed() {
 
       console.log(encodeBase32(40.1838684, 44.5138549));
 
-      let determinedKey = 'nyc/' + file.name;
-
+      let determinedKey = 'null';
+      if(file && file.name)
+      {
+        determinedKey = 'nyc/' + file.name;
+      }
       fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
         headers: {
           'Accept': 'application/json',
@@ -134,13 +137,29 @@ function Feed() {
 
   return (
     <div className='Feed'>
-      <div className='messageSection'>
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={uploadFile}>Upload</button>
-        <textarea className='messgaeinput' onChange={handleMessageChange}></textarea>
+      <div className='headerSection'>
+        Ejoverse Feed
       </div>
-      <div className='Element-container'> 
-        <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data, feedElement.imgUrl)}</li>)}</ul>
+      <div className='feedSection'>
+        <div className='wholeInput'>  
+          <div className='messageSection'>
+            <textarea className='messageInput' onChange={handleMessageChange} placeholder="what's on your mind..?"></textarea>
+              <input type="file" onChange={handleFileChange} />
+              <label for="file-upload" class="custom-file-upload">
+                  Upload Image
+              </label>
+              <input id="file-upload" type="file"/>
+          </div>
+          <div className='post-buttonSection'>
+            <button className='post-button' onClick={uploadFile}>Post</button>
+          </div>
+        </div>
+      <div>
+
+      </div>
+        <div className='Element-container'> 
+          <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data, feedElement.imgUrl)}</li>)}</ul>
+        </div>
       </div>
     </div>
   );
@@ -161,6 +180,8 @@ function Element(username, text, imgUrl) {
     </div>
     
   )
+
+  
 }
 
 

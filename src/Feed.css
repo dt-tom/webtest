@@ -1,5 +1,4 @@
-.Feed {
-  text-align: center;
+.feedSection {
   font-family: "Stopbuck";
   /* background-image: url('./img/blankmap.png'); */
   min-height: 100vh;
@@ -35,7 +34,7 @@ ul {
   flex-direction: column;
   width: 30%;
   width: 100%;
-  padding: 10px;
+  padding: 1em;
   margin-bottom: auto;
 
 }
@@ -71,8 +70,67 @@ li {
   image-rendering: pixelated;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  border:solid;
+  border-width: 3px;
+  margin-bottom: .5em;
+}
+.wholeInput {
+  border:solid;
+  border-width: 5px;
+  border-radius: 8px;
+  padding: 10px;
+  flex-direction: column;
+}
+.messageSection {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
+.headerSection {
+  display: flex;
+  text-align: left;
+  align-content: flex-start; 
+  align-items: flex-start;
+  justify-content: left;
+  font-size: 1.5em;
+  padding: .5em;
+  font-family: "Stopbuck";
+}
 
+textarea {
+  width: 20rem;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 12px;
+  resize: none;
+}
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 3px solid black;
+  display: inline-block;
+  padding: .2em;
+  margin: .5em;
+  cursor: pointer;
+  border-radius: 10px;
+}
 
+.post-button {
+  border: 3px solid black;
+  border-radius: 10px;
+  font-family: "Stopbuck";
+  font-size: 16px;
+  padding: 3px 10px;
+}
 
+.post-buttonSection {
+  display: flex;
+  justify-content: center;
+}
