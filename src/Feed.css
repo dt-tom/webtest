@@ -1,7 +1,6 @@
 .feedSection {
   font-family: "Stopbuck";
   /* background-image: url('./img/blankmap.png'); */
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,7 +24,8 @@
 }
 
 ul {
-  padding: 0;
+  padding: .5em;
+  /* overflow-y: scroll; */
 }
 
 
@@ -114,6 +114,7 @@ input[type="file"] {
   display: none;
 }
 .custom-file-upload {
+  font-size: 12px;
   border: 3px solid black;
   display: inline-block;
   padding: .2em;
@@ -126,11 +127,13 @@ input[type="file"] {
   border: 3px solid black;
   border-radius: 10px;
   font-family: "Stopbuck";
-  font-size: 16px;
+  font-size: 32px;
   padding: 3px 10px;
+  background-color: rgb(124, 124, 207);
 }
 
 .post-buttonSection {
+  
   display: flex;
   justify-content: center;
 }

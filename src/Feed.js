@@ -42,6 +42,7 @@ function Feed() {
       console.log(encodeBase32(40.1838684, 44.5138549));
 
       let determinedKey = 'null';
+      console.log("filename: " + file.name);
       if(file && file.name)
       {
         determinedKey = 'nyc/' + file.name;
@@ -144,11 +145,11 @@ function Feed() {
         <div className='wholeInput'>  
           <div className='messageSection'>
             <textarea className='messageInput' onChange={handleMessageChange} placeholder="what's on your mind..?"></textarea>
-              <input type="file" onChange={handleFileChange} />
-              <label for="file-upload" class="custom-file-upload">
-                  Upload Image
+              <label htmlFor="file-upload" className="custom-file-upload">
+                  Attach Image
               </label>
-              <input id="file-upload" type="file"/>
+              <input id="file-upload" type="file" onChange={handleFileChange} />
+              {/* <input id="file-upload" type="file"/> */}
           </div>
           <div className='post-buttonSection'>
             <button className='post-button' onClick={uploadFile}>Post</button>
