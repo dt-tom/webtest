@@ -134,9 +134,11 @@ function Feed() {
 
   return (
     <div className='Feed'>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={uploadFile}>Upload</button>
-      <textarea className='messgaeinput' onChange={handleMessageChange}></textarea>
+      <div className='messageSection'>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={uploadFile}>Upload</button>
+        <textarea className='messgaeinput' onChange={handleMessageChange}></textarea>
+      </div>
       <div className='Element-container'> 
         <ul>{feedElements.map(feedElement => <li key={feedElement.uuid}>{Element(feedElement.username, feedElement.data, feedElement.imgUrl)}</li>)}</ul>
       </div>
