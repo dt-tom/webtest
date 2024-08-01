@@ -42,7 +42,6 @@ function Feed() {
       console.log(encodeBase32(40.1838684, 44.5138549));
 
       let determinedKey = 'null';
-      console.log("filename: " + file.name);
       if(file && file.name)
       {
         determinedKey = 'https://feed-ejoverse.s3.us-west-2.amazonaws.com/' + 'nyc/' + file.name;
