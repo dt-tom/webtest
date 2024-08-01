@@ -12,15 +12,13 @@
   border: solid;
   border-width: 5px;
   border-radius: 8px;
-  /* width: 100%; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 15px;
   color: black(0, 255, 238);
-  font-family: 'Courier New', Courier, monospace;
-
+  min-width: 20rem;
 }
 
 ul {
@@ -29,42 +27,14 @@ ul {
 }
 
 
-.info {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  width: 100%;
-  padding: 1em;
-  margin-bottom: auto;
 
-}
-
-.message {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  align-items: center;
-  justify-content: center;
-  margin: 4em;
-}
-
-.userImage {
-}
-
-.username {
-  overflow: hidden;
-}
 
 li {
   list-style-type: none;
   padding-bottom: 20px;
 }
 
-.postimage {
-  width: 100px;
-  height: 100px;
-  image-rendering: pixelated;
-}
+
 
 .userImage {
   image-rendering: pixelated;
@@ -136,4 +106,43 @@ input[type="file"] {
   
   display: flex;
   justify-content: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding-left: 1em;
+  padding-top: 1em;
+  margin-bottom: auto;
+
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  align-items: center;
+  justify-content: center;
+  margin: .5em;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+}
+
+.userImage {
+}
+
+.username {
+  overflow: hidden;
+}
+.postimage {
+  height: 10rem;
+  max-width: 15rem;
+  image-rendering: pixelated;
+  margin-top: 1.5rem;
+}
+
+.message-text {
+  padding: 1em;
+  font-size: 14px;
 }

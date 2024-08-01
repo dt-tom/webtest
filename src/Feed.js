@@ -45,7 +45,7 @@ function Feed() {
       console.log("filename: " + file.name);
       if(file && file.name)
       {
-        determinedKey = 'nyc/' + file.name;
+        determinedKey = 'https://feed-ejoverse.s3.us-west-2.amazonaws.com/' + 'nyc/' + file.name;
       }
       fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
         headers: {
@@ -55,7 +55,7 @@ function Feed() {
         method: 'POST',
         body: JSON.stringify({
           "message": message,
-          "image": 'https://feed-ejoverse.s3.us-west-2.amazonaws.com/' + determinedKey,
+          "image": determinedKey,
           "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
           "username": "rodney"
         })})
@@ -76,8 +76,6 @@ function Feed() {
         region: REGION,
       });
 
-      
-    
       const params = {
         Bucket: S3_BUCKET,
         Key: determinedKey,
@@ -175,8 +173,8 @@ function Element(username, text, imgUrl) {
         <div alt="alt" className='username'>{username}</div>
       </div>
       <div className='message'>
-        <div className='text'>{text}</div>
-        <img className='postimage' alt='alt' src={imgUrl}></img>
+        <div className='message-text'>{text}</div>
+        {imgUrl != 'null' ? <img className='postimage' alt='alt' src={imgUrl}></img> : <div></div> }
       </div>
     </div>
     
