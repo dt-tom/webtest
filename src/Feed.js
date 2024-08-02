@@ -12,7 +12,7 @@ function Feed() {
   console.log(encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5));
   console.log(encodeBase32(40.1838684, 44.5138549, 5));
 
-  useEffect(() => {
+  const makeAPICall = async () => {
     fetch('https://apu15an183.execute-api.us-west-2.amazonaws.com/TestStage/PullFeedLambda', {
       mode: 'cors',
       method: 'POST',
@@ -30,6 +30,10 @@ function Feed() {
         });
       })
       .catch(error => console.error(error));
+  }
+
+  useEffect(() => {
+      makeAPICall();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -95,6 +99,9 @@ function Feed() {
         console.log(err);
         alert("File uploaded successfully.");
       });
+
+      await new Promise(r => setTimeout(r, 100));
+      makeAPICall();
 
       // call put feed lambda here
       // record url/key in database
