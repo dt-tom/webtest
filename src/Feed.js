@@ -2,14 +2,22 @@ import './Feed.css';
 import React, { useState, useEffect } from 'react';
 import AWS from "aws-sdk";
 import { encodeBase32 } from 'geohashing';
+import { useSearchParams } from "react-router-dom";
 
 function Feed() {
   const [feedElements, setFeedElements]= useState([]);
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("Empty");
+  // eslint-disable-next-line no-unused-vars
+  const [urlParams, _] = useSearchParams();
 
   console.log("here");
-  console.log(encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5));
+  console.log(urlParams.get("lat"));
+  console.log(urlParams.get("long"));
+  let locX = 40.1838684 + Math.random()
+  let locY = 44.5138549 + Math.random()
+  console.log(locX + " " + locY);
+  console.log(encodeBase32(locX, locY, 5));
   console.log(encodeBase32(40.1838684, 44.5138549, 5));
 
   const makeAPICall = async () => {
@@ -17,7 +25,7 @@ function Feed() {
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify({
-        "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
+        "location": encodeBase32(40.1838684, 44.5138549, 5),
       })})
       .then(response => response.json())
       .then(json => {
@@ -46,8 +54,11 @@ function Feed() {
       let determinedKey = 'null';
       if(file && file.name)
       {
-        determinedKey = 'https://feed-ejoverse.s3.us-west-2.amazonaws.com/' + 'nyc/' + file.name;
+        determinedKey = `https://feed-ejoverse.s3.us-west-2.amazonaws.com/nyc/' + ${file.name}`;
       }
+
+      let locLat = urlParams.get("lat");
+      let locLong = urlParams.get("long");
       fetch('https://n7tskrvxfc.execute-api.us-west-2.amazonaws.com/PushStage/UploadToFeedLambda', {
         headers: {
           'Accept': 'application/json',
@@ -57,7 +68,7 @@ function Feed() {
         body: JSON.stringify({
           "message": message,
           "image": determinedKey,
-          "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
+          "location": encodeBase32(locLat, locLong, 5),
           "username": "rodney",
           "date": Date.now()
         })})
@@ -100,6 +111,7 @@ function Feed() {
       });
 
       await new Promise(r => setTimeout(r, 100));
+      setFeedElements([]);
       makeAPICall();
 
       // call put feed lambda here
@@ -118,26 +130,6 @@ function Feed() {
     console.log(e.target.value);
     setMessage(e.target.value);
   }
-
-  const getLocation = (e) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
-    } else {
-      console.log("Geolocation not supported");
-    }
-    
-    function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    }
-    
-    function error() {
-      console.log("Unable to retrieve your location");
-    }
-  }
-
-    
 
   return (
     <div className='Feed'>
@@ -179,7 +171,7 @@ function Element(username, text, imgUrl) {
       </div>
       <div className='message'>
         <div className='message-text'>{text}</div>
-        {imgUrl != 'null' ? <img className='postimage' alt='alt' src={imgUrl}></img> : <div></div> }
+        {imgUrl !== 'null' ? <img className='postimage' alt='alt' src={imgUrl}></img> : <div></div> }
       </div>
     </div>
     
