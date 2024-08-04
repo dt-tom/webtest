@@ -41,8 +41,6 @@ function Feed() {
       const S3_BUCKET = "feed-ejoverse";
       const REGION = "us-west-2";
 
-      getLocation();
-
       console.log(encodeBase32(40.1838684, 44.5138549));
 
       let determinedKey = 'null';
@@ -60,7 +58,8 @@ function Feed() {
           "message": message,
           "image": determinedKey,
           "location": encodeBase32(40.1838684 + Math.random(), 44.5138549 + Math.random(), 5),
-          "username": "rodney"
+          "username": "rodney",
+          "date": Date.now()
         })})
         .then(response => response.json())
         .then(json => {

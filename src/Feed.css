@@ -98,8 +98,12 @@ input[type="file"] {
   border-radius: 10px;
   font-family: "Stopbuck";
   font-size: 32px;
+  color: black;
   padding: 3px 10px;
   background-color: rgb(124, 124, 207);
+}
+select {
+  color: black;
 }
 
 .post-buttonSection {
