@@ -45,8 +45,6 @@ function Feed() {
       const S3_BUCKET = "feed-ejoverse";
       const REGION = "us-west-2";
 
-      console.log(encodeBase32(40.1838684, 44.5138549));
-
       let determinedKey = 'null';
       if(file && file.name)
       {
@@ -123,7 +121,6 @@ function Feed() {
     };
 
   const handleMessageChange = (e) => {
-    console.log(e.target.value);
     setMessage(e.target.value);
   }
 
@@ -132,6 +129,9 @@ function Feed() {
       <div className='headerSection'>
         Ejoverse Feed
       </div>
+      <h3>
+        {urlParams.get("lat")} | {urlParams.get("long")}
+      </h3>
       <div className='feedSection'>
         <div className='wholeInput'>  
           <div className='messageSection'>
