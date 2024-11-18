@@ -46,10 +46,14 @@ function Feed() {
       const REGION = "us-west-2";
 
       let determinedKey = 'null';
+      let s3Key = 'null';
       if(file && file.name)
       {
-        determinedKey = `https://feed-ejoverse.s3.us-west-2.amazonaws.com/nyc/' + ${file.name}`;
+        s3Key = "nyc/" + file.name;
+        determinedKey = "https://feed-ejoverse.s3.us-west-2.amazonaws.com/" + s3Key;
       }
+
+      console.log("determined key: " + determinedKey);
 
       let locLat = urlParams.get("lat");
       let locLong = urlParams.get("long");
@@ -75,7 +79,7 @@ function Feed() {
       AWS.config.update({
         region: "us-west-2",
         credentials: new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: "us-west-2:2ed868fe-51e6-4417-b324-0f4586983d0d"
+            IdentityPoolId: "us-west-2:c9cbb521-3a0d-4e69-8d90-2901dc1fcb3e"
         })
       });
       const s3 = new AWS.S3({
@@ -83,13 +87,25 @@ function Feed() {
         region: REGION,
       });
 
+      console.log("file:")
+      console.log(file)
+
       const params = {
         Bucket: S3_BUCKET,
-        Key: determinedKey,
+        Key: s3Key,
         Body: file,
         ContentEncoding: 'base64'
       };
+
+      // try {
+      //   var list = s3
+      //     .listObjects({Bucket: S3_BUCKET}).promise();
+      //   } catch (error) {
+      //     console.log("list error: " + error);
+      //   } 
     
+      // console.log(list);
+      try {
       var upload = s3
         .putObject(params)
         .on("httpUploadProgress", (evt) => {
@@ -98,11 +114,24 @@ function Feed() {
           );
         })
         .promise();
+      } catch (error) {
+        console.log("error: " + error);
+      }
     
       await upload.then((err, data) => {
-        console.log(err);
+        
         alert("File uploaded successfully.");
+        console.log(err);
+        console.log(data);
       });
+
+      // await list.then((err, data) => {
+        
+      //   alert("List pulled successfully.");
+      //   console.log(list);
+      //   console.log(err);
+      //   console.log(data);
+      // });
 
       await new Promise(r => setTimeout(r, 100));
       setFeedElements([]);
